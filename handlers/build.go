@@ -25,6 +25,7 @@ func Build(Args []string) {
 	syscall.Umask(0)
 	if err := os.Mkdir(imageDir+Args[2], 0777); err != nil {
 		if strings.Contains(err.Error(), "file exists") {
+			fmt.Println(err.Error())
 			panic("Image already exists")
 		}
 	}
