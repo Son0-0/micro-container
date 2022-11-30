@@ -1,0 +1,7 @@
+FROM python:slim
+
+WORKDIR /test
+
+COPY hello.py hello.py
+
+CMD python3 hello.py

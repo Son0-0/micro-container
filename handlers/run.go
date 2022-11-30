@@ -8,8 +8,6 @@ import (
 )
 
 func Run(Args []string) {
-	fmt.Printf("runnig %v\n", Args[2:])
-
 	cmd := exec.Command("/proc/self/exe", append([]string{"child"}, Args[2:]...)...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
@@ -22,7 +20,7 @@ func Run(Args []string) {
 }
 
 func Child(Args []string) {
-	fmt.Printf("child runnig %v as PID %d\n", Args[2:], os.Getpid())
+	fmt.Printf("Runnig %v as PID %d\n", Args[2:], os.Getpid())
 
 	cmd := exec.Command(Args[2], Args[3:]...)
 	cmd.Stdin = os.Stdin

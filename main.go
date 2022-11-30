@@ -8,6 +8,8 @@ import (
 
 func main() {
 	switch os.Args[1] {
+	case "build":
+		handlers.Build(os.Args)
 	case "run":
 		handlers.Run(os.Args)
 	case "child":
