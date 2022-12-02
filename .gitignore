@@ -6,3 +6,6 @@ test.go
 
 # text file
 *.txt
+
+# env file
+.env

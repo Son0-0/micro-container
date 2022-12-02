@@ -9,10 +9,7 @@ import (
 	"syscall"
 )
 
-// idx		0						1	2
-// build	[Gockerfile location]	-t	[imagename]
 func Build(Args []string) {
-	// read from Gockerfile
 	fmt.Printf("build %v Image\n", Args[2])
 
 	data, err := ioutil.ReadFile("Gockerfile")
@@ -25,7 +22,6 @@ func Build(Args []string) {
 	syscall.Umask(0)
 	if err := os.Mkdir(imageDir+Args[2], 0777); err != nil {
 		if strings.Contains(err.Error(), "file exists") {
-			fmt.Println(err.Error())
 			panic("Image already exists")
 		}
 	}
@@ -79,10 +75,11 @@ func Build(Args []string) {
 		}
 	}
 
-	zipCommand := "tar cvf " + imageDir + Args[2] + ".tar " + imageDir + Args[2] + "/*"
-	fmt.Println("zipCommand: ", zipCommand)
+	Handle(os.Chdir(imageDir))
+	zipCommand := "tar cvf " + Args[2] + ".tar " + Args[2] + "/*"
 	cmd := exec.Command("bash", "-c", zipCommand)
 	Handle(cmd.Run())
 
+	Handle(os.Chdir("../"))
 	os.RemoveAll(imageDir + Args[2])
 }
