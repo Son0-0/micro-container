@@ -32,6 +32,8 @@ func Build(Args []string) {
 	Handle(err)
 	defer sh.Close()
 
+	workDir := imageDir + Args[2] + "/"
+
 	for _, s := range command {
 		if len(s) != 0 {
 			cmd := strings.Split(string(s), " ")
@@ -47,6 +49,9 @@ func Build(Args []string) {
 
 				Handle(os.Remove(imageDir + Args[2] + "/image.tar"))
 			case "WORKDIR":
+				syscall.Umask(0)
+				Handle(os.Mkdir(imageDir+Args[2]+"/"+cmd[1], 0777))
+				workDir = workDir + "/" + cmd[1] + "/"
 				fmt.Fprintf(sh, "cd "+cmd[1]+"\n")
 			case "CMD":
 				tempCommand := ""
@@ -64,7 +69,7 @@ func Build(Args []string) {
 				data, err := ioutil.ReadFile(cmd[1])
 				Handle(err)
 
-				file, err := os.Create(imageDir + Args[2] + "/" + cmd[1])
+				file, err := os.Create(workDir + cmd[1])
 				defer file.Close()
 				Handle(err)
 

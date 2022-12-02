@@ -11,7 +11,7 @@ func main() {
 	case "build":
 		handlers.Build(os.Args[2:])
 	case "run":
-		handlers.Run(os.Args)
+		handlers.Run(os.Args[2:])
 	case "child":
 		handlers.Child(os.Args)
 	default:
